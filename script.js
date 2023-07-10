@@ -21,6 +21,8 @@ const completeRef = document.getElementById("complete");
 const completeInfoRef = document.getElementById("complete-info");
 const completeButtonRef = document.getElementById("complete-button");
 
+let countdownCache = {};
+
 // Set date to minimum today
 dateRef.setAttribute("min", new Date().toISOString().split("T")[0]);
 
@@ -29,9 +31,25 @@ function updaetCountdown(e) {
   countdownTitle = e.srcElement[0].value;
   //   Breakdown date
   countdownValue = new Date(e.srcElement[1].value).getTime();
+  countdownCache = {
+    title: countdownTitle,
+    date: countdownValue,
+  };
+  localStorage.setItem("countdown", JSON.stringify(countdownCache));
   if (e.srcElement[1].value == "") {
     alert("Please select date");
   } else {
+    updateDOM();
+  }
+}
+
+function checkLocalStorage() {
+  if (!!localStorage.getItem("countdown")) {
+    inputContainerRef.hidden = true;
+    savedData = JSON.parse(localStorage.getItem("countdown"));
+    console.log(savedData);
+    countdownTitle = savedData.title;
+    countdownValue = savedData.date;
     updateDOM();
   }
 }
@@ -67,6 +85,7 @@ function resetCountdown() {
   clearInterval(countdownActive);
   countdownTitle = "";
   countdownDate = "";
+  localStorage.removeItem("countdown");
 }
 
 // Event listeners
@@ -74,3 +93,6 @@ function resetCountdown() {
 countdownFormRef.addEventListener("submit", updaetCountdown);
 coubtdownButton.addEventListener("click", resetCountdown);
 completeButtonRef.addEventListener("click", resetCountdown);
+
+// On load
+checkLocalStorage();
