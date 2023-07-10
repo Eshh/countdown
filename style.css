@@ -40,7 +40,7 @@ video {
 /* Container */
 .container {
   min-width: 580px;
-  min-height: 304px;
+  min-height: 350px;
   color: black;
   margin: 0 auto;
   padding: 25px 50px;
@@ -167,7 +167,7 @@ li span {
   .container {
     min-width: unset;
     width: 95vw;
-    min-height: 245px;
+    min-height: 280px;
     padding: 20px;
     margin: 10px;
   }
